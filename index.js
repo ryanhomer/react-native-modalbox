@@ -10,7 +10,6 @@ var {
   TouchableWithoutFeedback,
   Dimensions,
   Easing,
-  BackAndroid,
   BackHandler,
   Platform,
   Modal,
@@ -18,8 +17,6 @@ var {
 } = require('react-native');
 
 var createReactClass = require('create-react-class');
-
-var BackButton = BackHandler || BackAndroid;
 
 var screen = Dimensions.get('window');
 
@@ -455,7 +452,7 @@ var ModalBox = createReactClass({
    * Render the component
    */
   render: function() {
-    
+
     var visible = this.state.isOpen || this.state.isAnimateOpen || this.state.isAnimateClose;
 
     if (!visible) return <View/>
@@ -494,7 +491,7 @@ if (!this.props.coverScreen) return content;
       this.onViewLayoutCalculated = () => {
         this.setState({});
         this.animateOpen();
-        if(this.props.backButtonClose && Platform.OS === 'android') BackButton.addEventListener('hardwareBackPress', this.onBackPress)
+        if(this.props.backButtonClose && Platform.OS === 'android') BackHandler.addEventListener('hardwareBackPress', this.onBackPress)
         delete this.onViewLayoutCalculated;
       };
       this.setState({isAnimateOpen : true});
@@ -505,7 +502,7 @@ if (!this.props.coverScreen) return content;
     if (this.props.isDisabled) return;
     if (!this.state.isAnimateClose && (this.state.isOpen || this.state.isAnimateOpen)) {
       this.animateClose();
-      if(this.props.backButtonClose && Platform.OS === 'android') BackButton.removeEventListener('hardwareBackPress', this.onBackPress)
+      if(this.props.backButtonClose && Platform.OS === 'android') BackHandler.removeEventListener('hardwareBackPress', this.onBackPress)
     }
   }
 
